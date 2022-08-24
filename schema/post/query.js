@@ -7,7 +7,7 @@ module.exports = {
     },
     getPost: async (_, { id }) => {
         const post = await Post.findById(id).populate(
-            "author comments.author likes.author"
+            "author comments.author likes"
         );
 
         if (post) {
