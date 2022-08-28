@@ -13,6 +13,16 @@ const Home = () => {
                     <PostCard key={post.id} post={post} />
                 ))
             )}
+            <footer>
+                Made by{" "}
+                <a
+                    href="https://nathanpham.me"
+                    target="_blank"
+                    rel="noreferrer"
+                >
+                    Nathan Pham
+                </a>
+            </footer>
         </>
     );
 };

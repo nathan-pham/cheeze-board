@@ -26,6 +26,7 @@ const Navigation = () => {
                             </Link>
                         );
 
+                        // if path is current path, bold
                         if (path === location.pathname) {
                             return <strong key={path}>{link}</strong>;
                         }

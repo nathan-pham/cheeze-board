@@ -9,16 +9,25 @@ interface PostCardProps {
 }
 
 const PostCard = ({ post }: PostCardProps) => {
+    const likePost = () => {
+        console.log("like");
+    };
+
+    const commentPost = () => {
+        console.log("comment");
+    };
+
     return (
         <article>
             <h2>{post.body}</h2>
             <p>
-                by {post.author.username} at {dayjs(post.createdAt).fromNow()}
+                Posted by {post.author.username}{" "}
+                <time>{dayjs(post.createdAt).fromNow()}</time>
             </p>
-            <p>{post.body}</p>
-            <Link to={`/post/${post.id}`}>Go to Post</Link> |{" "}
-            <button>Like {post.likeCount}</button> |{" "}
-            <button>Comment {post.commentCount}</button>
+            <button onClick={likePost}>Like {post.likeCount}</button> |{" "}
+            <button onClick={commentPost}>Comment {post.commentCount}</button> |{" "}
+            <Link to={`/post/${post.id}`}>Go to Post</Link>
+            <hr />
         </article>
     );
 };
