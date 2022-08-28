@@ -24,6 +24,10 @@ const resolvers = {
         ...UserMutation,
         ...PostMutation,
     },
+    Post: {
+        commentCount: (post) => post.comments.length,
+        likeCount: (post) => post.likes.length,
+    },
 };
 
 const server = new ApolloServer({

@@ -2,7 +2,7 @@ const { model, Schema } = require("mongoose");
 
 const postSchema = new Schema({
     body: String,
-    createdAt: Date,
+    createdAt: String,
     author: {
         type: Schema.Types.ObjectId,
         ref: "User",
@@ -10,7 +10,7 @@ const postSchema = new Schema({
     comments: [
         {
             body: String,
-            createdAt: Date,
+            createdAt: String,
             author: {
                 type: Schema.Types.ObjectId,
                 ref: "User",

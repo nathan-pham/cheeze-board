@@ -14,7 +14,9 @@ module.exports = gql`
         createdAt: String!
         author: User!
         comments: [Comment]!
+        commentCount: Int!
         likes: [User!]!
+        likeCount: Int!
     }
 
     extend type Query {

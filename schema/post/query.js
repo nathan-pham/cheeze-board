@@ -2,7 +2,9 @@ const Post = require("./model");
 
 module.exports = {
     getPosts: async () => {
-        const posts = await Post.find().sort({ createdAt: -1 });
+        const posts = await Post.find()
+            .sort({ createdAt: -1 })
+            .populate("author comments.author likes");
         return posts;
     },
     getPost: async (_, { id }) => {
