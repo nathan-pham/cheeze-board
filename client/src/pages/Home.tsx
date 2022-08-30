@@ -1,31 +1,21 @@
 import { useQuery, gql } from "@apollo/client";
-import PostCard from "../components/PostCard";
+import { useContext } from "react";
+
+import { AuthContext } from "../contexts/AuthContext";
+import Posts from "../components/Posts";
+import PostForm from "../components/PostForm";
+import Footer from "../components/Footer";
 
 const Home = () => {
     const { loading, data } = useQuery(FETCH_POSTS_QUERY);
+    const { user } = useContext(AuthContext);
 
     return (
         <>
             <h1>Recent Posts</h1>
-            {loading ? (
-                <p>Loading Posts...</p>
-            ) : data.getPosts.length ? (
-                data.getPosts.map((post: Record<string, any>) => (
-                    <PostCard key={post.id} post={post} />
-                ))
-            ) : (
-                <p>No posts found.</p>
-            )}
-            <footer>
-                Made by{" "}
-                <a
-                    href="https://nathanpham.me"
-                    target="_blank"
-                    rel="noreferrer"
-                >
-                    Nathan Pham
-                </a>
-            </footer>
+            {user && <PostForm />}
+            <Posts loading={loading} posts={data?.getPosts} />
+            <Footer />
         </>
     );
 };
