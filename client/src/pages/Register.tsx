@@ -1,25 +1,17 @@
-import { FormEvent } from "react";
+import { FormEvent, useState } from "react";
 import { gql, useMutation } from "@apollo/client";
+import { useNavigate } from "react-router-dom";
+
+import loadFormData from "../utils/loadFormData";
+import useAuth from "../hooks/useAuth";
 
 const Register = () => {
-    const onSubmit = (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-
-        // jsonify form data
-        const formData = new FormData(e.target as HTMLFormElement);
-        const variables: Record<string, string> = {};
-        for (const [key, value] of formData) {
-            variables[key.toString()] = value.toString();
-        }
-
-        addUser({ variables });
-    };
-
-    const [addUser, { loading }] = useMutation(REGISTER_USER_MUTATION, {
-        update(proxy, result) {
+    const { errors, loading, onSubmit } = useAuth(
+        REGISTER_USER_MUTATION,
+        (result: Record<string, any>) => {
             console.log(result);
-        },
-    });
+        }
+    );
 
     return (
         <>
@@ -69,7 +61,12 @@ const Register = () => {
                 />
                 <br />
                 <br />
-                <button>Register</button>
+                <button disabled={loading}>Register</button>
+                <ul>
+                    {Object.entries(errors).map(([key, value]) => (
+                        <li key={key}>{value}</li>
+                    ))}
+                </ul>
             </form>
         </>
     );
@@ -98,14 +95,3 @@ const REGISTER_USER_MUTATION = gql`
         }
     }
 `;
-
-// mutation register(
-//     $username: String!
-//     $password: String!
-//     $confirmPassword: String!
-//     $email: String!
-// ) {
-//     register($username, $password, $confirmPassword, $email) {
-//         author
-//     }
-// }
