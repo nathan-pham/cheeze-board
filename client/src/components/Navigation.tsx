@@ -1,19 +1,26 @@
-import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-
-const routes = {
-    "/": "Home",
-    "/login": "Login",
-    "/register": "Register",
-};
+import { useContext } from "react";
+import { AuthContext } from "./AuthContext";
 
 const Navigation = () => {
     const location = useLocation();
+    const context = useContext(AuthContext);
+
+    const routes = context.user
+        ? {
+              "/": "Home",
+              "/auth/logout": "Logout",
+          }
+        : {
+              "/": "Home",
+              "/auth/login": "Login",
+              "/auth/register": "Register",
+          };
 
     return (
         <header>
             <nav>
-                <p>🧀 Cheese Board</p>
+                <h1>🧀 Cheese Board</h1>
                 <p>
                     A horrendously cheesy social media made with next-gen
                     technologies

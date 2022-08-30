@@ -1,9 +1,12 @@
 import { gql } from "@apollo/client";
-import useAuth from "../hooks/useAuth";
-import Errors from "../components/Errors";
+import useAuth from "../../hooks/useAuth";
+import Errors from "../../components/Errors";
 
 const Register = () => {
-    const { errors, loading, onSubmit } = useAuth(REGISTER_USER_MUTATION);
+    const { errors, loading, onSubmit } = useAuth(
+        REGISTER_USER_MUTATION,
+        "createUser"
+    );
 
     return (
         <>
