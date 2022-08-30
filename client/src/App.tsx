@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 // import pages
 import Home from "./pages/Home";
-
+import Post from "./pages/Post";
 import Login from "./pages/auth/Login";
 import Logout from "./pages/auth/Logout";
 import Regsiter from "./pages/auth/Register";
@@ -18,6 +18,7 @@ const App = () => {
 
                 <Routes>
                     <Route path="/" element={<Home />} />
+                    <Route path="/post/:id" element={<Post />} />
                     <Route path="/auth">
                         <Route path="login" element={<Login />} />
                         <Route path="logout" element={<Logout />} />

@@ -10,6 +10,10 @@ export const FETCH_POSTS_QUERY = gql`
                 username
             }
 
+            likes {
+                username
+            }
+
             likeCount
             commentCount
             comments {

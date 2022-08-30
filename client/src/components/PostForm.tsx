@@ -40,7 +40,12 @@ const PostForm = () => {
 
     return (
         <form onSubmit={onSubmit} ref={formRef}>
-            <input type="text" placeholder="What's happening?" name="body" />
+            <input
+                type="text"
+                placeholder="What's happening?"
+                name="body"
+                required
+            />
             <button>Post</button>
         </form>
     );
@@ -59,6 +64,10 @@ const CREATE_POST_MUTATION = gql`
             }
 
             likeCount
+            likes {
+                username
+            }
+
             commentCount
             comments {
                 id
