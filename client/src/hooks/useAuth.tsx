@@ -4,7 +4,7 @@ import { useMutation, DocumentNode } from "@apollo/client";
 
 import loadFormData from "../utils/loadFormData";
 
-const useAuth = (MUTATION: DocumentNode, onUpdate: Function) => {
+const useAuth = (MUTATION: DocumentNode) => {
     const [errors, setErrors] = useState<Record<string, string>>({});
     const navigate = useNavigate();
 
@@ -17,7 +17,6 @@ const useAuth = (MUTATION: DocumentNode, onUpdate: Function) => {
     const [addUser, { loading }] = useMutation(MUTATION, {
         update(_, result) {
             navigate("/");
-            onUpdate(result);
         },
         onError(e: any) {
             setErrors(e.graphQLErrors[0].extensions.errors);

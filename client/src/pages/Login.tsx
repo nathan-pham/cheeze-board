@@ -1,10 +1,9 @@
-import { FormEvent } from "react";
+import { gql } from "@apollo/client";
+import useAuth from "../hooks/useAuth";
+import Errors from "../components/Errors";
 
 const Login = () => {
-    const onSubmit = (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        const formData = new FormData(e.target as HTMLFormElement);
-    };
+    const { errors, loading, onSubmit } = useAuth(LOGIN_USER_MUTATION);
 
     return (
         <>
@@ -33,10 +32,39 @@ const Login = () => {
                 <br />
                 <br />
 
-                <button>Login</button>
+                <button disabled={loading}>Login</button>
+                <Errors errors={errors} />
             </form>
         </>
     );
 };
 
 export default Login;
+
+const LOGIN_USER_MUTATION = gql`
+    mutation LoginUser($username: String!, $password: String!) {
+        loginUser(username: $username, password: $password) {
+            token
+        }
+    }
+`;
+
+// mutation CreateUser(
+//     $username: String!
+//     $password: String!
+//     $confirmPassword: String!
+//     $email: String!
+// ) {
+//     createUser(
+//         username: $username
+//         password: $password
+//         confirmPassword: $confirmPassword
+//         email: $email
+//     ) {
+//         id
+//         email
+//         username
+//         createdAt
+//         token
+//     }
+// }

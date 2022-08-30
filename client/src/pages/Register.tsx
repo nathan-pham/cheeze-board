@@ -1,17 +1,9 @@
-import { FormEvent, useState } from "react";
-import { gql, useMutation } from "@apollo/client";
-import { useNavigate } from "react-router-dom";
-
-import loadFormData from "../utils/loadFormData";
+import { gql } from "@apollo/client";
 import useAuth from "../hooks/useAuth";
+import Errors from "../components/Errors";
 
 const Register = () => {
-    const { errors, loading, onSubmit } = useAuth(
-        REGISTER_USER_MUTATION,
-        (result: Record<string, any>) => {
-            console.log(result);
-        }
-    );
+    const { errors, loading, onSubmit } = useAuth(REGISTER_USER_MUTATION);
 
     return (
         <>
@@ -62,11 +54,7 @@ const Register = () => {
                 <br />
                 <br />
                 <button disabled={loading}>Register</button>
-                <ul>
-                    {Object.entries(errors).map(([key, value]) => (
-                        <li key={key}>{value}</li>
-                    ))}
-                </ul>
+                <Errors errors={errors} />
             </form>
         </>
     );
@@ -87,10 +75,7 @@ const REGISTER_USER_MUTATION = gql`
             confirmPassword: $confirmPassword
             email: $email
         ) {
-            id
-            email
             username
-            createdAt
             token
         }
     }
