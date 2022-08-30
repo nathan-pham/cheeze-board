@@ -5,11 +5,10 @@ import { AuthContext } from "../contexts/AuthContext";
 
 import LikeButton from "../components/LikeButton";
 import DeleteButton from "../components/DeleteButton";
+import CommentForm from "../components/CommentForm";
+import Comments from "../components/Comments";
 
 import dayjs from "dayjs";
-import dayjsRelative from "dayjs/plugin/relativeTime";
-
-dayjs.extend(dayjsRelative);
 
 const Post = () => {
     const params = useParams();
@@ -42,7 +41,10 @@ const Post = () => {
                 {context.user?.username == post.author.username && (
                     <DeleteButton id={post.id} />
                 )}
+                <h2>Make a Comment</h2>
+                <CommentForm />
                 <h2>Comments</h2>
+                <Comments comments={post.comments} />
             </>
         );
     }

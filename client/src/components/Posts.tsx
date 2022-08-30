@@ -20,7 +20,7 @@ const Posts = ({ loading, posts }: PostsProps) => {
         );
     }
 
-    return <p>No posts found.</p>;
+    return <p>No posts yet.</p>;
 };
 
 export default Posts;
