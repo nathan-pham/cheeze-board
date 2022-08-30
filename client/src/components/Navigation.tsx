@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { useContext } from "react";
-import { AuthContext } from "./AuthContext";
+import { AuthContext } from "../contexts/AuthContext";
 
 const Navigation = () => {
     const location = useLocation();

@@ -8,7 +8,7 @@ import Logout from "./pages/auth/Logout";
 import Regsiter from "./pages/auth/Register";
 
 import Navigation from "./components/Navigation";
-import { AuthProvider } from "./components/AuthContext";
+import { AuthProvider } from "./contexts/AuthContext";
 
 const App = () => {
     return (

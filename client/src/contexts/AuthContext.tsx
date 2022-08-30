@@ -1,7 +1,24 @@
 import { createContext, useReducer, ReactNode } from "react";
+import jwtDecode from "jwt-decode";
+
+const initialState: Partial<{ [key in keyof AuthContextProps]: any }> = {};
+const initialToken = localStorage.getItem("token");
+if (initialToken) {
+    const decodedToken = jwtDecode(initialToken) as { exp: number };
+
+    // token has expired, remove it
+    if (decodedToken.exp * 1000 < Date.now()) {
+        localStorage.removeItem("token");
+    }
+
+    // otherwise save the user
+    else {
+        initialState.user = decodedToken;
+    }
+}
 
 /* AuthContext types  */
-interface AuthContextProps {
+export interface AuthContextProps {
     user?: any;
     login: Function;
     logout: Function;
@@ -24,18 +41,22 @@ interface Action {
 }
 
 const AuthProvider = ({ children }: AuthProviderProps) => {
-    const [state, dispatch] = useReducer(authReducer, { user: null });
+    const [state, dispatch] = useReducer(authReducer, initialState);
 
-    const login = (user: Record<string, string>) =>
+    const login = (user: Record<string, string>) => {
+        localStorage.setItem("token", user.token);
         dispatch({
             type: "LOGIN",
             payload: user,
         });
+    };
 
-    const logout = () =>
+    const logout = () => {
+        localStorage.removeItem("token");
         dispatch({
             type: "LOGOUT",
         });
+    };
 
     return (
         <AuthContext.Provider value={{ user: state.user, login, logout }}>

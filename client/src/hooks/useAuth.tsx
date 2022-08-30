@@ -3,8 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { useMutation, DocumentNode } from "@apollo/client";
 
 import loadFormData from "../utils/loadFormData";
-import { AuthContext } from "../components/AuthContext";
+import { AuthContext } from "../contexts/AuthContext";
 
+// easily log in or register users with forms
 const useAuth = (MUTATION: DocumentNode, mutationKey: string) => {
     const [errors, setErrors] = useState<Record<string, string>>({});
     const navigate = useNavigate();

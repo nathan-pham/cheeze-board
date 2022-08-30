@@ -1,8 +1,11 @@
 import { gql } from "@apollo/client";
 import useAuth from "../../hooks/useAuth";
 import Errors from "../../components/Errors";
+import { useNoAuth } from "../../hooks/useAuthEffect";
 
 const Login = () => {
+    useNoAuth();
+
     const { errors, loading, onSubmit } = useAuth(
         LOGIN_USER_MUTATION,
         "loginUser"
