@@ -17,6 +17,7 @@ const App = () => {
                 <Navigation />
 
                 <Routes>
+                    <Route path="*" element={<p>404 not found.</p>} />
                     <Route path="/" element={<Home />} />
                     <Route path="/post/:id" element={<Post />} />
                     <Route path="/auth">

@@ -42,11 +42,6 @@ const resolvers = {
 const startApolloServer = async (port = 5500) => {
     const app = express();
 
-    app.use(express.static("./client/dist"));
-    app.get("/", (_, res) => {
-        res.sendFile(path.join(__dirname, "./client/dist/index.html"));
-    });
-
     const httpServer = http.createServer(app);
     const apolloServer = new ApolloServer({
         typeDefs,
@@ -68,6 +63,12 @@ const startApolloServer = async (port = 5500) => {
     // start apollo server
     await apolloServer.start();
     apolloServer.applyMiddleware({ app });
+
+    // serve react app
+    app.use(express.static("./client/dist"));
+    app.get("*", (_, res) => {
+        res.sendFile(path.join(__dirname, "./client/dist/index.html"));
+    });
 
     httpServer.listen({ port }, () => {
         console.log(
