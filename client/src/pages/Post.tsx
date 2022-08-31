@@ -44,6 +44,10 @@ const Post = () => {
                     <>
                         {" "}
                         | <DeleteButton postId={post.id} />
+                    </>
+                )}
+                {context.user && (
+                    <>
                         <h2>Make a Comment</h2>
                         <CommentForm id={post.id} />
                     </>
