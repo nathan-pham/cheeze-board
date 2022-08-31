@@ -2,10 +2,11 @@ import Comment from "./Comment";
 
 interface CommentsProps {
     postId: string;
+    username: string;
     comments: Record<string, any>[];
 }
 
-const Comments = ({ postId, comments }: CommentsProps) => {
+const Comments = ({ postId, username, comments }: CommentsProps) => {
     if (comments.length) {
         return (
             <>
@@ -13,6 +14,7 @@ const Comments = ({ postId, comments }: CommentsProps) => {
                     <Comment
                         key={comment.id}
                         postId={postId}
+                        username={username}
                         comment={comment}
                     />
                 ))}

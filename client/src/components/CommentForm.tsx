@@ -24,27 +24,7 @@ const CommentForm = ({ id }: CommentFormProps) => {
     };
 
     const [createComment, { loading }] = useMutation(CREATE_COMMENT_MUTATION, {
-        update(proxy, result) {
-            const data = proxy.readQuery({
-                query: FETCH_POST_QUERY,
-                variables: {
-                    id,
-                },
-            }) as any;
-
-            proxy.writeQuery({
-                query: FETCH_POST_QUERY,
-                data: {
-                    getPost: {
-                        ...data.getPost,
-                        comments: [
-                            result.data.createComment,
-                            ...data.getPost.comments,
-                        ],
-                    },
-                },
-            });
-
+        update() {
             clearFormRef(formRef);
         },
     });
@@ -70,6 +50,14 @@ const CREATE_COMMENT_MUTATION = gql`
             id
             body
             createdAt
+            comments {
+                author {
+                    username
+                }
+                createdAt
+                body
+                id
+            }
             author {
                 username
             }

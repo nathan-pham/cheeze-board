@@ -27,30 +27,24 @@ const client = new ApolloClient({
             },
             Post: {
                 fields: {
-                    likes: {
-                        // effectively overwrite likes with new likes
-                        merge(_: any[], incoming: any[]) {
-                            return incoming;
-                        },
-                    },
-                    comments: {
-                        // effectively overwrite comments with new comments
-                        merge(_: any[], incoming: any[]) {
-                            return incoming;
-                        },
-                    },
+                    // likes: {
+                    //     // effectively overwrite likes with new likes
+                    //     merge(_: any[], incoming: any[]) {
+                    //         return incoming;
+                    //     },
+                    // },
                 },
             },
 
-            Query: {
-                fields: {
-                    getPosts: {
-                        merge(_: any[], incoming: any[]) {
-                            return incoming;
-                        },
-                    },
-                },
-            },
+            // Query: {
+            //     fields: {
+            //         getPosts: {
+            //             merge(_: any[], incoming: any[]) {
+            //                 return incoming;
+            //             },
+            //         },
+            //     },
+            // },
         },
     }),
 });

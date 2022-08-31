@@ -6,6 +6,7 @@ import dayjs from "dayjs";
 import dayjsRelative from "dayjs/plugin/relativeTime";
 import LikeButton from "./LikeButton";
 import DeleteButton from "./DeleteButton";
+import CommentButton from "../components/CommentButton";
 
 dayjs.extend(dayjsRelative);
 
@@ -15,10 +16,7 @@ interface PostCardProps {
 
 const PostCard = ({ post }: PostCardProps) => {
     const { user } = useContext(AuthContext);
-
-    const commentPost = () => {
-        console.log("comment");
-    };
+    const postHref = `/post/${post.id}`;
 
     return (
         <article>
@@ -33,12 +31,19 @@ const PostCard = ({ post }: PostCardProps) => {
                 likes={post.likes}
                 likeCount={post.likeCount}
             />{" "}
-            | <button onClick={commentPost}>Comment {post.commentCount}</button>{" "}
+            |{" "}
+            <CommentButton
+                user={user}
+                postHref={postHref}
+                commentCount={post.commentCount}
+            />{" "}
             |{" "}
             {user?.username == post.author.username && (
-                <DeleteButton postId={post.id} />
-            )}{" "}
-            | <Link to={`/post/${post.id}`}>Go to Post</Link>
+                <>
+                    <DeleteButton postId={post.id} /> |{" "}
+                </>
+            )}
+            <Link to={postHref}>Go to Post</Link>
             <hr />
         </article>
     );

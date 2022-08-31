@@ -2,7 +2,7 @@ import { RefObject } from "react";
 
 const clearFormRef = (formRef: RefObject<HTMLFormElement>) => {
     if (formRef.current) {
-        formRef.current.document
+        formRef.current
             .querySelectorAll("input")
             .forEach((input: HTMLInputElement) => {
                 input.value = "";

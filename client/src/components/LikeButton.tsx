@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useMutation, gql } from "@apollo/client";
 
+import Signin from "./Signin";
+
 interface LikeButtonProps {
     user: Record<string, any>;
     id: string;
@@ -31,11 +33,7 @@ const LikeButton = ({ user, id, likes, likeCount }: LikeButtonProps) => {
         );
     }
 
-    return (
-        <Link to="/auth/login">
-            <button>Sign into Like</button>
-        </Link>
-    );
+    return <Signin to="like" />;
 };
 
 export default LikeButton;

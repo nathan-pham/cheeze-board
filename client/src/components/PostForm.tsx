@@ -18,7 +18,7 @@ const PostForm = () => {
         });
     };
 
-    const [createPost, { error }] = useMutation(CREATE_POST_MUTATION, {
+    const [createPost, { loading }] = useMutation(CREATE_POST_MUTATION, {
         update(proxy, result) {
             // commit post changes
             const data = proxy.readQuery({
@@ -45,7 +45,7 @@ const PostForm = () => {
                 name="body"
                 required
             />
-            <button>Post</button>
+            <button disabled={loading}>Post</button>
         </form>
     );
 };

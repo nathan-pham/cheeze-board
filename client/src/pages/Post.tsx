@@ -11,6 +11,7 @@ import Comments from "../components/Comments";
 import { FETCH_POST_QUERY } from "../utils/queries";
 
 import dayjs from "dayjs";
+import Footer from "../components/Footer";
 
 const Post = () => {
     const params = useParams();
@@ -38,15 +39,22 @@ const Post = () => {
                     id={post.id}
                     likes={post.likes}
                     likeCount={post.likeCount}
-                />{" "}
-                |{" "}
+                />
                 {context.user?.username == post.author.username && (
-                    <DeleteButton postId={post.id} />
+                    <>
+                        {" "}
+                        | <DeleteButton postId={post.id} />
+                        <h2>Make a Comment</h2>
+                        <CommentForm id={post.id} />
+                    </>
                 )}
-                <h2>Make a Comment</h2>
-                <CommentForm id={post.id} />
                 <h2>Comments</h2>
-                <Comments postId={post.id} comments={post.comments} />
+                <Comments
+                    postId={post.id}
+                    comments={post.comments}
+                    username={context.user?.username}
+                />
+                <Footer />
             </>
         );
     }
