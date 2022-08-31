@@ -2,6 +2,7 @@ import { FormEvent, useRef } from "react";
 import { gql, useMutation } from "@apollo/client";
 
 import { FETCH_POSTS_QUERY } from "../utils/queries";
+import clearFormRef from "../utils/clearFormRef";
 
 const PostForm = () => {
     const formRef = useRef<HTMLFormElement>(null);
@@ -19,11 +20,6 @@ const PostForm = () => {
 
     const [createPost, { error }] = useMutation(CREATE_POST_MUTATION, {
         update(proxy, result) {
-            // reset all inputs
-            formRef.current?.querySelectorAll("input").forEach((input) => {
-                input.value = "";
-            });
-
             // commit post changes
             const data = proxy.readQuery({
                 query: FETCH_POSTS_QUERY,
@@ -35,6 +31,9 @@ const PostForm = () => {
                     getPosts: [result.data.createPost, ...data.getPosts],
                 },
             });
+
+            // reset all inputs
+            clearFormRef(formRef);
         },
     });
 

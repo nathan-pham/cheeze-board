@@ -1,52 +1,93 @@
 import { useNavigate } from "react-router-dom";
 import { gql, useMutation } from "@apollo/client";
-import { FETCH_POSTS_QUERY } from "../utils/queries";
+import { FETCH_POSTS_QUERY, FETCH_POST_QUERY } from "../utils/queries";
 
 interface DeleteButtonProps {
-    id: string;
+    postId?: string;
+    commentId?: string;
 }
 
-const DeleteButton = ({ id }: DeleteButtonProps) => {
+const DeleteButton = ({ postId, commentId }: DeleteButtonProps) => {
     const navigate = useNavigate();
 
-    const [deletePost] = useMutation(DELETE_POST_MUTATION, {
-        variables: {
-            deletePostId: id,
-        },
-        update(proxy, result) {
-            const data = proxy.readQuery({
-                query: FETCH_POSTS_QUERY,
-            }) as any;
+    let deleteItem: Function, loading: boolean;
+    let type: string;
 
-            proxy.writeQuery({
-                query: FETCH_POSTS_QUERY,
-                data: {
-                    getPosts: data.getPosts.filter(
-                        (post: Record<string, any>) => post.id !== id
-                    ),
-                },
-            });
+    // delete comment
+    if (postId && commentId) {
+        type = "comment";
+        [deleteItem, { loading }] = useMutation(DELETE_COMMENT_MUTATION, {
+            variables: { postId, commentId },
+            update(proxy) {
+                const data = proxy.readQuery({
+                    query: FETCH_POST_QUERY,
+                    variables: {
+                        id: postId,
+                    },
+                }) as any;
 
-            navigate("/");
-        },
-    });
+                proxy.writeQuery({
+                    query: FETCH_POST_QUERY,
+                    data: {
+                        getPost: {
+                            ...data.getPost,
+                            comments: data.getPost.comments.filter(
+                                (comment: Record<string, any>) =>
+                                    comment.id !== commentId
+                            ),
+                        },
+                    },
+                });
+            },
+        });
+    } else {
+        type = "post";
+        [deleteItem, { loading }] = useMutation(DELETE_POST_MUTATION, {
+            variables: { postId },
+            update(proxy) {
+                const data = proxy.readQuery({
+                    query: FETCH_POSTS_QUERY,
+                }) as any;
+
+                proxy.writeQuery({
+                    query: FETCH_POSTS_QUERY,
+                    data: {
+                        getPosts: data.getPosts.filter(
+                            (post: Record<string, any>) => post.id !== postId
+                        ),
+                    },
+                });
+
+                navigate("/");
+            },
+        });
+    }
 
     const onClick = () => {
-        const confirmation = confirm(
-            "Are you sure you want to delete this post?"
-        );
-        if (confirmation) {
-            deletePost();
+        if (confirm(`Are you sure you want to delete this ${type}?`)) {
+            deleteItem();
         }
     };
 
-    return <button onClick={onClick}>Delete</button>;
+    return (
+        <button onClick={onClick} disabled={loading}>
+            Delete
+        </button>
+    );
 };
 
 export default DeleteButton;
 
 const DELETE_POST_MUTATION = gql`
-    mutation DeletePost($deletePostId: ID!) {
-        deletePost(id: $deletePostId)
+    mutation DeletePost($postId: ID!) {
+        deletePost(id: $postId)
+    }
+`;
+
+const DELETE_COMMENT_MUTATION = gql`
+    mutation DeleteComment($postId: ID!, $commentId: ID!) {
+        deleteComment(postId: $postId, commentId: $commentId) {
+            id
+        }
     }
 `;

@@ -36,7 +36,7 @@ const PostCard = ({ post }: PostCardProps) => {
             | <button onClick={commentPost}>Comment {post.commentCount}</button>{" "}
             |{" "}
             {user?.username == post.author.username && (
-                <DeleteButton id={post.id} />
+                <DeleteButton postId={post.id} />
             )}{" "}
             | <Link to={`/post/${post.id}`}>Go to Post</Link>
             <hr />

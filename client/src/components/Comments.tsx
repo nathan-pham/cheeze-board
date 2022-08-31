@@ -1,15 +1,20 @@
 import Comment from "./Comment";
 
 interface CommentsProps {
+    postId: string;
     comments: Record<string, any>[];
 }
 
-const Comments = ({ comments }: CommentsProps) => {
+const Comments = ({ postId, comments }: CommentsProps) => {
     if (comments.length) {
         return (
             <>
                 {comments.map((comment) => (
-                    <Comment key={comment.id} comment={comment} />
+                    <Comment
+                        key={comment.id}
+                        postId={postId}
+                        comment={comment}
+                    />
                 ))}
             </>
         );

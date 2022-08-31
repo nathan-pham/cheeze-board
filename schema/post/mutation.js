@@ -56,7 +56,7 @@ module.exports = {
             });
 
             await post.save();
-            return post;
+            return post.populate("author comments.author likes.author");
         } else {
             throw new UserInputError("Post not found");
         }

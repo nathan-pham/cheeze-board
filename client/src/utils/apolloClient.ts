@@ -33,6 +33,12 @@ const client = new ApolloClient({
                             return incoming;
                         },
                     },
+                    comments: {
+                        // effectively overwrite comments with new comments
+                        merge(_: any[], incoming: any[]) {
+                            return incoming;
+                        },
+                    },
                 },
             },
 

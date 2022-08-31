@@ -27,3 +27,29 @@ export const FETCH_POSTS_QUERY = gql`
         }
     }
 `;
+
+export const FETCH_POST_QUERY = gql`
+    query GetPost($id: ID!) {
+        getPost(id: $id) {
+            id
+            body
+            createdAt
+            likeCount
+            author {
+                username
+            }
+            likes {
+                username
+            }
+            commentCount
+            comments {
+                id
+                author {
+                    username
+                }
+                createdAt
+                body
+            }
+        }
+    }
+`;

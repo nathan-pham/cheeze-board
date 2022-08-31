@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { useParams } from "react-router-dom";
-import { gql, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { AuthContext } from "../contexts/AuthContext";
 
 import LikeButton from "../components/LikeButton";
@@ -8,12 +8,14 @@ import DeleteButton from "../components/DeleteButton";
 import CommentForm from "../components/CommentForm";
 import Comments from "../components/Comments";
 
+import { FETCH_POST_QUERY } from "../utils/queries";
+
 import dayjs from "dayjs";
 
 const Post = () => {
     const params = useParams();
     const context = useContext(AuthContext);
-    const { data, loading } = useQuery(POST_QUERY, {
+    const { data, loading } = useQuery(FETCH_POST_QUERY, {
         variables: {
             id: params.id,
         },
@@ -39,12 +41,12 @@ const Post = () => {
                 />{" "}
                 |{" "}
                 {context.user?.username == post.author.username && (
-                    <DeleteButton id={post.id} />
+                    <DeleteButton postId={post.id} />
                 )}
                 <h2>Make a Comment</h2>
-                <CommentForm />
+                <CommentForm id={post.id} />
                 <h2>Comments</h2>
-                <Comments comments={post.comments} />
+                <Comments postId={post.id} comments={post.comments} />
             </>
         );
     }
@@ -53,29 +55,3 @@ const Post = () => {
 };
 
 export default Post;
-
-const POST_QUERY = gql`
-    query GetPost($id: ID!) {
-        getPost(id: $id) {
-            id
-            body
-            createdAt
-            likeCount
-            author {
-                username
-            }
-            likes {
-                username
-            }
-            commentCount
-            comments {
-                id
-                author {
-                    username
-                }
-                createdAt
-                body
-            }
-        }
-    }
-`;
